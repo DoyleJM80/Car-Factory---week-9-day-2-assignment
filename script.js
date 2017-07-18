@@ -15,9 +15,26 @@
 // It should print "Building one COLOR TRIM MODEL with the following options: OPTIONS", i.e: "Building one red Sport Mazda3 with the following options: heated seats, rear spoiler"
 
 // Create the Factory class bellow:
+class Factory {
+  constructor(options) {
+    this.make = 'Mazda';
+    this.location = 'USA';
+    this.airbags = true;
+    this.abs = true;
+    this.warranty = options.warranty || '60,000 / 3 years';
+  }
+  static massBuild(quantity, options) {
+    this.quantity = quantity;
+    this.options = options || {};
+    console.log(`Building ${quantity} ${options.color} ${options.trim} ${options.model}'s'`);
+  }
 
+  static customerBuild(color, options) {
+      console.log(`Building one ${color} ${this.trim} ${this.model} with the following options: ${options.join(', ')}`);
+      return;
+    }
 
-
+}
 
 // CREATE A SUB-CLASS CALLED CAR
 // It should extend from Factory.
@@ -26,7 +43,25 @@
 // Car should also have the following additional properties: enginesize (4), navigation (true), backupcamera (true), warranty (100,000 miles / 5 years)
 // Write your code below:
 
-
+class Car extends Factory {
+  constructor(options) {
+    options = options || {};
+    super({warranty: '100,000 miles / 5 years'});
+    this.model = options.model;
+    this.doors = options.doors;
+    this.color = options.color;
+    this.enginetype = options.enginetype;
+    this.transmission = options.transmission;
+    this.trim = options.trim;
+    this.wheelstrim = options.wheelstrim;
+    this.audio = options.audio;
+    this.seatstrim = options.seatstrim;
+    this.moonroof = options.moonroof;
+    this.enginesize = 4;
+    this.navigation = true;
+    this.backupcamera = true;
+  }
+}
 
 
 // CREATE A SUB-CLASS CALLED SPORT
@@ -34,7 +69,17 @@
 // The constructor should have the following properties: model, trim, transmission, top, color, seatstrim, audio, wheelstrim. The values should be specified when creating an instance of Sport.
 // Sports cars should also have the following additional properties: moonroof (false), enginetype (gasoline), convertible (true), doors (2)
 // Write your code below:
+class Sport extends Car {
+  constructor(options) {
+    super(options);
+    this.top = options.top;
+    this.moonroof = false;
+    this.enginetype = 'gasoline';
+    this.convertible = true;
+    this.doors = 2;
+  }
 
+}
 
 
 
@@ -46,7 +91,19 @@
 // It should also inherit the warranty property so we can extend it to: 150,000 miles / 6 years.
 // Write your code below:
 
-
+class Truck extends Factory {
+  constructor(model, color, enginesize, hitch, bed, navigation) {
+    super({warranty});
+    this.model = model;
+    this.enginesize = enginesize;
+    this.hitch = hitch;
+    this.bed = bed;
+    this.navigation = navigation;
+    this.backupcamera = true;
+    this.audio = 'basic';
+    this.warranty = '150,000 / 6 years';
+  }
+}
 
 
 // LET'S BUILD SOME CARS AND TRUCKS!
@@ -56,11 +113,12 @@
 // The following properties must be specified: model (mazda3), color (red), enginetype (hybrid), transmission (automatic), trim (touring), wheels (base), audio (premium), seats (leather), and moonroof (true)
 
 // Write your 'mazda3' instance below:
+let mazda3 = new Car('mazda3', 4, 'red', 'hybrid', 'automatic', 'touring', 'base', 'premium', 'leather', true);
 
 
 // Print mazda3. I should have all the above properties.
 // Write your code below:
-
+console.log(mazda3);
 
 
 
@@ -69,7 +127,7 @@
 // It should print: "Building 35000 Red Touring Mazda3's."
 // Write your code below:
 
-
+Factory.massBuild(35000, mazda3);
 
 
 
@@ -77,7 +135,7 @@
 // It should read: "Building one yellow Touring Mazda3 with the following options: weather package, satellite radio, rear spoiler"
 // Write your code below:
 
-
+Factory.customerBuild.call(mazda3, 'yellow', ['weather package', 'satellite radio', 'rear spoiler']);
 
 
 
@@ -87,7 +145,7 @@
 
 // Write your 'miataRf' instance below:
 // Write your code below:
-
+let miataRf = new Sport({model: 'Miata-RF', trim: 'Grand Touring', transmission: 'manual', top: 'hard top', color: 'red', seats: 'leather', audio: 'premium', wheels: 'premium'});
 
 
 
@@ -95,7 +153,7 @@
 // Print miataRf. It should have all of the above properties. Plus, the extended warranty.
 // Write your code below:
 
-
+console.log(miataRf);
 
 
 
